@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<!-- KaTZ-Pit V5000 Q3-2015, 3rd Wing KaTZe : Remi Perrin -->
+<!-- P-51D Panel V00 2015/09 -->
+
+
+
+
+<head>
+	<meta charset="utf-8" />
+	<title>KaTZ-Pit P-51D Mustang</title>
+	
+	<meta name="description" content="Online Virtual Panel" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Style -->
+	<link href="css/P51D-Pit.css" rel="stylesheet" media="all" type="text/css">
+
+	<!--Scripts library-->
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/serverws.js"></script>
+	
+	<script type="text/javascript" src="js/dataread.js"></script>
+	<script type="text/javascript" src="js/function_calcul.js"></script>
+	<script type="text/javascript" src="js/function_commande.js"></script>
+	<script type="text/javascript" src="js/function_convert_scale.js"></script>
+
+	<script type="text/javascript" src="js/pit.js"></script>
+	<script type="text/javascript" src="js/pit_init.js"></script>
+	<script type="text/javascript" src="js/plane_init.js"></script>
+	
+	<script type="text/javascript" src="js/instrument.js"></script>
+	<script type="text/javascript" src="js/menu.js"></script>	
+	
+	<script type="text/javascript" src="js/panel_alarm.js"></script>
+	<script type="text/javascript" src="js/panel_electric.js"></script>
+	<script type="text/javascript" src="js/panel_engine.js"></script>
+	<script type="text/javascript" src="js/panel_hydraulic.js"></script>
+	<script type="text/javascript" src="js/panel_instrument.js"></script>
+	<script type="text/javascript" src="js/panel_landing.js"></script>
+	<script type="text/javascript" src="js/panel_navigation.js"></script>
+	<script type="text/javascript" src="js/panel_pilototo.js"></script>
+	<script type="text/javascript" src="js/panel_radio.js"></script>
+	<script type="text/javascript" src="js/panel_target.js"></script>
+	<script type="text/javascript" src="js/panel_weapon.js"></script>
+	
+
+    
+</head>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<body>
+  
+  <!-- chargement du tableau de bord -->
+  <!-- le tableau de bord est positionné grace à la création d'une classe dans la .CSS -->
+  <!-- les boutons, voyants, affichage, sont positionné relativement au Panel -->
+  <!-- en ajustant la position du panel, les objets "suivent" :-) -->
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<!-- chargement de la ligne jaune de séparation instruments aero. -->
+<div id="Panel_Border">
+	<img src="images/analog/P51D-Panel.png" width="1200" height="800"> 
+		    
+</div>
+
+<!-- chargement du panneau de check list -->
+<div id="Panel_CheckList">
+	<img src="images/analog/P51D_CheckList.png" width="320" height="270"> 
+</div>
+
+
+<div id="Cadran_HSI">
+	<img src="images/analog/P51D_HSI.png" width="270" height="270"> 
+	
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -15px; width: 300px; height: 300px">
+	<img src="images/analog/cadran-ring.gif" width="300" height="300" > </SPAN> 
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 5px; width: 270px; height: 270px">
+	<img src="images/analog/N_HSI_Way.gif" width="270" height="270"   id="AN_Way">	</SPAN>
+
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 270px; height: 270px">
+	<img src="images/analog/N_HSI_Route.gif" width="270" height="270"   id="AN_Route">	</SPAN>
+    
+</div>
+
+<div id="Cadran_AirSpeed">
+	<img src="images/analog/P51D_Badin.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" > </SPAN> 
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_Airspeed"> </SPAN>
+	
+</div>
+
+<div id="Cadran_Altitude">
+	<img src="images/analog/P51D_AltiBaro.png" width="300" height="300"  >
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" >	</SPAN>
+
+	<!-- Aiguille 0-1000 -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_Altitude"> </SPAN>		
+	<!-- Aiguille 0-10000 -->
+	<SPAN style="position: absolute; left: 25px; top: 25px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille-2.gif" width="250" height="250" id="AIG_Alti1000"> </SPAN>		
+
+</div>
+
+<div id="Cadran_Clock">
+	<img src="images/analog/P51D_Clock.png" width="200" height="200"  >
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="220" height="220" >	</SPAN>
+	
+	<!-- Aiguille Seconde -->
+	<SPAN style="position: absolute; left: 90px; top: 0px; width: 30px; height: 330px">
+	<img src="images/analog/Clock-RU-AIG-sec.png" width="20" height="200" id="AIG_Clock_sec"> </SPAN>	
+	<!-- Aiguille Minute -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="200" height="200" id="AIG_Clock_mn"> </SPAN>		
+	<!-- Aiguille Heure -->
+	<SPAN style="position: absolute; left: 25px; top: 25px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille-2.gif" width="150" height="150" id="AIG_Clock_hr"> </SPAN>
+	
+
+</div>
+
+<div id="Cadran_Compas">
+	<img src="images/analog/P51D_Compas.png" width="280" height="280"  >
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="290" height="290" >	</SPAN>
+	
+	<!-- Indication Digitale -->
+	<SPAN style="position: absolute; left: 60px; top: 78px; width: 160px; height: 80px ; background-color:#696969 ;border-style: solid ;color:white ; font-size:400%" id="Compas_Value">
+	
+</div>
+
+
+<div id="Cadran_Bille">
+	<img src="images/analog/P51D_Bille.png" width="280" height="280"  > 
+	
+	<!-- Bille -->
+	<SPAN style="position: absolute; left: -25px; top: -120px; width: 300px; height: 300px">
+	<img src="images/analog/Bille-Aiguille_B.gif" width="330" height="330" id="Bille_Bille"> </SPAN>
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: -50px; top: 40px; width: 300px; height: 300px">
+	<img src="images/analog/P51D-SlipAig.png" width="380" height="380" id="AIG_Bille"> </SPAN>
+    
+</div>
+
+
+<div id="Cadran_ADI">
+
+	<img src="images/analog/ADI.gif" width="400" height="400"  > 
+	
+	<!-- Pitch Top -->
+	<SPAN style="position: absolute; left: 25px; top: 44px; width: 280px; height: 140px">
+	<img src="images/analog/ADI-Top.gif" width="350" height="160" id="ADI_Pitch_T">	</SPAN>
+	
+	<!-- Pitch Center -->
+	<SPAN style="position: absolute; left: 40px; top: 189px; width: 300px; height: 4px">
+	<img src="images/analog/ADI-Center.gif" width="320" height="4" id="ADI_Pitch_C"> </SPAN>
+
+	<!-- Bank -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 400px; height: 400px">
+	<img src="images/analog/ADI-Bank.gif" width="400" height="400" id="ADI_Bank"> </SPAN>
+	
+	<!-- Couronne -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 400px; height: 400px">
+	<img src="images/analog/ADI.gif" width="400" height="400"  > </SPAN>
+	
+	<!-- Taux de Pitch -->
+	<SPAN style="position: absolute; left: 160px; top: 100px; width: 80px; height: 40px ; background-color:#696969 ;border-style: solid;
+    border-color: grey;color:white ; font-size:200%" id="ADI_Pitch_V1"> </SPAN>
+	<SPAN style="position: absolute; left: 160px; top: 270px; width: 80px; height: 40px ; background-color:lightgrey ;color:black ; font-size:200%" id="ADI_Pitch_V2"> </SPAN>
+    
+</div>
+
+
+<div id="Cadran_Vario">
+	<img src="images/analog/P51D_Vario.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" >
+	</SPAN>
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_Vario">
+	</SPAN>	
+    
+</div>
+
+<div id="Cadran_Suction">
+	<img src="images/analog/P51D_Suction.png" width="200" height="200"  >
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 220px; height: 220px">
+	<img src="images/analog/cadran-ring.gif" width="220" height="220" >	</SPAN>
+
+	<!-- Aiguille Minute -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 200px; height: 200px">
+	<img src="images/M_Aiguille.gif" width="200" height="200" id="AIG_Suction"> </SPAN>		
+	
+</div>
+
+
+<div id="Cadran_Coolant">
+	<img src="images/analog/P51D_TempCoolant.png" width="200" height="200"  > 
+	
+	
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 220px; height: 220px">
+	<img src="images/analog/cadran-ring.gif" width="220" height="220" >	</SPAN>
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: -12px; top: 35px; width: 220px; height: 220px">
+	<img src="images/Aig_drift.gif" width="220" height="220" id="AIG_Coolant"> </SPAN>
+	
+	<!-- Cadre-Bottom -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 220px; height: 220px">
+	<img src="images/analog/P51D_Cool_fond.png" width="220" height="220" >	</SPAN>
+		
+</div>
+
+<div id="Cadran_Carb">
+	<img src="images/analog/P51D_TempCarb.png" width="200" height="200"  > 
+		
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 220px; height: 220px">
+	<img src="images/analog/cadran-ring.gif" width="220" height="220" >	</SPAN>
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: -12px; top: 35px; width: 220px; height: 220px">
+	<img src="images/Aig_drift.gif" width="220" height="220" id="AIG_Carb"> </SPAN>
+	
+	<!-- Cadre-Bottom -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 220px; height: 220px">
+	<img src="images/analog/P51D_Carb_fond.png" width="220" height="220" >	</SPAN>
+	
+</div>
+
+<div id="Cadran_GMetre">
+	<img src="images/analog/P51D_GMetre.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" >
+	</SPAN>
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_GMetre">
+	</SPAN>	
+    
+</div>
+
+<div id="Cadran_Manifold">
+	<img src="images/analog/P51D_Manifold.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" > </SPAN> 
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_Manifold"> </SPAN>
+	
+</div>
+
+
+
+<div id="Cadran_RPM">
+	<img src="images/analog/P51D_RPM.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" >	</SPAN>
+
+	<!-- Aiguille Eng -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_RPM_Eng">	</SPAN>	
+
+</div>
+
+<div id="Cadran_Oil">
+	<img src="images/analog/P51D_OilTemp.png" width="300" height="300"  > 
+
+	<!-- Cadre -->
+	<SPAN style="position: absolute; left: -12px; top: -12px; width: 320px; height: 320px">
+	<img src="images/analog/cadran-ring.gif" width="320" height="320" > </SPAN> 
+	
+	<!-- Aiguille -->
+	<SPAN style="position: absolute; left: 0px; top: 0px; width: 300px; height: 300px">
+	<img src="images/M_Aiguille.gif" width="300" height="300" id="AIG_OilTemp"> </SPAN>
+	
+	<!-- Aiguille Oil Pressure -->
+	<SPAN style="position: absolute; left: 23px; top: 105px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="200" height="200" id="AIG_OilPress"> </SPAN>
+	
+	<!-- Aiguille Fuel Pressure -->
+	<SPAN style="position: absolute; left: 75px; top: 105px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="200" height="200" id="AIG_FuelPress"> </SPAN>
+	
+</div>
+
+
+
+<div id="Panel_Stick">
+	<img src="images/panel/Stick_Panel.png" width="300" height="300"  > 
+
+	<!-- Indic Stick -->
+	<SPAN style="position: absolute; left: 160px; top: 120px; width: 20px; height: 20px">
+	<img src="images/panel/Stick_posit.png" width="20" height="20" id="Position_Stick">	</SPAN>	
+
+	<!-- Indic Rudder -->
+	<SPAN style="position: absolute; left: 160px; top: 240px; width: 20px; height: 20px">
+	<img src="images/panel/Stick_posit.png" width="20" height="20" id="Position_Rudder"> </SPAN>	
+
+	<!-- Indic Cyclic -->
+	<SPAN style="position: absolute; left: 25px; top: 220px; width: 20px; height: 20px">
+	<img src="images/panel/Stick_posit.png" width="20" height="20" id="Position_Collectif">	</SPAN>	
+
+	<!-- Valeur Input Pitch/Roll/Rudder/Cyclic -->
+	<SPAN style="position: absolute; left: 145px; top: 5px; width: 50px; height: 25px ; font-size:1.2em" id="PosData_Pitch"> </SPAN>
+	<SPAN style="position: absolute; left: 260px; top: 117px; width: 50px; height: 25px ; font-size:1.2em" id="PosData_Roll"> </SPAN>
+	<SPAN style="position: absolute; left: 145px; top: 275px; width: 50px; height: 25px ; font-size:1.2em" id="PosData_Rudder"> </SPAN>
+	<SPAN style="position: absolute; left: 5px; top: 240px; width: 50px; height: 25px ; font-size:1.2em" id="PosData_Collectif"> </SPAN>
+</div>
+
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --> 
+<!-- Panneau de démarrage du KaTZ-Pit + Canopy + Eject -->
+<div id="Panel_Connection">
+
+	<img src="images/emergency/Connection-Panel.png" width="250" height="200"   usemap="#Connection_P"> 
+
+	<!-- Mapping du bouton, Demarrage KaTZ-Pit , et ouverture porte -->
+	<map name="Connection_P">
+		<area shape="circle" coords="55,75,45" href="javascript:Pit_Start(9)">
+		<area shape="rect" coords="10,140,110,180" href="javascript:DCS_Focus()">
+		<area shape="rect" coords="210,30,240,160" href="javascript:CmdDCSRaw('11200501')">
+	</map>
+
+	<!-- Voyants de connection KaTZ-Link -->
+	<SPAN style="position: absolute; left: 120px; top: 20px">
+	<img src="images/emergency/z_Led-Rouge.png" width="80" height="40"  id="Led_Connect"> </SPAN>
+	
+	<!-- Voyants de connection DCS Focus -->
+	<SPAN style="position: absolute; left: 120px; top: 140px">
+	<img src="images/emergency/z_Led-Bleu.png" width="80" height="40"  id="Led_DCS"> </SPAN>
+
+	<!-- Zone d'affichage de l'adresse IP -->
+	<SPAN style="position: absolute; left: 115px; top: 85px; width: 90px; height: 25px ; color:green ; text-align:center; font-size:80%" id="IP_Host"> </SPAN>
+	<SPAN style="position: absolute; left: 115px; top: 100px; width: 90px; height: 25px ; color:green ; text-align:center; font-size:80%" id="IP_Port"> </SPAN>
+
+</div>
+
+	
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<!-- Panneau de selection des sub panels affichés -->
+<div id="Panel_Launcher">
+
+<img src="images/emergency/Launcher-Panel.png" width="100" height="1050"   usemap="#Panel_Launcher"> 
+
+	<map name="Panel_Launcher">
+		
+		<area shape="rect" coords="10,20,90,80" href="javascript:menu_Toggle('Electric')">
+		<area shape="rect" coords="10,80,90,120" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,120,90,180" href="javascript:menu_Toggle('Start')">
+		<area shape="rect" coords="10,180,90,220" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,220,90,280" href="javascript:menu_Toggle('Fuel')">
+		<area shape="rect" coords="10,280,90,320" href="javascript:menu_Toggle('Vierge')">		
+		<area shape="rect" coords="10,320,90,380" href="javascript:menu_Toggle('Vierge')">		
+		<area shape="rect" coords="10,380,90,420" href="javascript:menu_Toggle('Combat')">
+		<area shape="rect" coords="10,420,90,480" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,480,90,520" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,520,90,580" href="javascript:menu_Toggle('Radionav')">
+		<area shape="rect" coords="10,580,90,620" href="javascript:menu_Toggle('Target')">
+		<area shape="rect" coords="10,620,90,680" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,680,90,720" href="javascript:menu_Toggle('Stick')">
+		<area shape="rect" coords="10,720,90,780" href="javascript:menu_Toggle('Radio_360')">
+		<area shape="rect" coords="10,780,90,820" href="javascript:menu_Toggle('CheckList')">
+		<area shape="rect" coords="10,820,90,880" href="javascript:menu_Toggle('Doc')">
+		<area shape="rect" coords="10,880,90,920" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,920,90,980" href="javascript:menu_Toggle('Vierge')">
+		<area shape="rect" coords="10,980,90,1020" href="javascript:CmdDCSRaw('11300701')">
+
+	</map>
+
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Panel_Landing">
+
+	<img src="images/landing/P51D_Landing_Light.png" width="400" height="120">
+	
+		
+	<!-- Landing Green -->
+	<SPAN style="position: absolute; left: 140px; top: 23px; width: 58px; height: 58px">
+	<img src="images/landing/P51D_landlight_greenoff.png" width="58" height="58" id="Lnd_Lght_Green">
+	</SPAN>
+	
+	<!-- Landing Red -->
+	<SPAN style="position: absolute; left: 313px; top: 23px; width: 58px; height: 58px">
+	<img src="images/landing/P51D_landlight_redoff.png" width="58" height="58" id="Lnd_Lght_Red">
+	</SPAN>
+	
+	
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Trim_Data">
+
+	<img src="images/panel/P51D_Trim_Panel.png" width="250" height="200" usemap="#TrimPanel">
+	
+	<!-- Indication Digitale -->
+	<SPAN style="position: absolute; left: 15px; top: 30px; width: 100px; height: 50px ; background-color:#494949 ;border-style: solid ;color:#CFCF00 ; font-size:300%" id="Trim_Aileron"></SPAN>
+	<SPAN style="position: absolute; left: 15px; top: 120px; width: 100px; height: 50px ; background-color:#494949 ;border-style: solid ;color:#CFCF00 ; font-size:300%" id="Trim_Rudder"></SPAN>
+	<SPAN style="position: absolute; left: 150px; top: 50px; width: 60px; height: 100px ; background-color:#494949 ;border-style: solid ;color:#CFCF00 ; font-size:250%" id="Trim_Pitch"></SPAN>
+	
+	
+</div>
+
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<div id="Panel_Flaps">
+
+	<img src="images/panel/P51D_Flaps_Panel.png" width="400" height="200" usemap="#TrimPanel">
+	
+	<!-- Indicateur Flaps -->
+	<SPAN style="position: absolute; left: 344px; top: 40px; width: 40px; height: 40px">
+	<img src="images/panel/Flaps_Indicator.png" width="40" height="40" id="P_Flaps"> </SPAN>
+	
+	
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Panel_Elec-Light">
+
+	<img src="images/electric/P51D_Electric_Light_1.png" width="500" height="200">
+		
+	
+	<!-- Selecteur Generateur -->
+	<SPAN style="position: absolute; left: 30px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="E_Gen" usemap="#Gen"> </SPAN>
+	<map name="Gen">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11400301')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11400300')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Batterie -->
+	<SPAN style="position: absolute; left: 80px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="E_Batt" usemap="#Batt"> </SPAN>
+	<map name="Batt">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11400201')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11400200')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Gun Heat -->
+	<SPAN style="position: absolute; left: 160px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="E_GunH" usemap="#GunH"> </SPAN>
+	<map name="GunH">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11401901')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11401900')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Pitot Heat -->
+	<SPAN style="position: absolute; left: 210px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="E_PitotH" usemap="#PitotH">
+	<map name="PitotH">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11400501')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11400500')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Wing Position Light -->
+	<SPAN style="position: absolute; left: 285px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="E_Wing_Light" usemap="#Wing_Light"> </SPAN>
+	<map name="Wing_Light">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('31400802')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('31400801')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('31400800')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Tail Light -->
+	<SPAN style="position: absolute; left: 335px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="E_Tail_Light" usemap="#Tail_Light"> </SPAN>
+	<map name="Tail_Light">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('31400902')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('31400901')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('31400900')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Landing Light , Transformation de Continue en 0 , 50% , 100%-->
+	<SPAN style="position: absolute; left: 423px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="E_Landing_Light" usemap="#Lnd_Light"> </SPAN>
+	<map name="Lnd_Light">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11000301')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11000300')">  
+	</SPAN>
+	
+	
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+
+<div id="Panel_Start">
+
+	<img src="images/start/P51D_Start_Panel.png" width="500" height="200">
+	
+	<!-- Selecteur Supercharger -->
+	<SPAN style="position: absolute; left: 42px; top: 70px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="S_Charger">
+	</SPAN>
+	
+	<!-- Cover Selecteur Supercharger -->
+	<SPAN style="position: absolute; left: 32px; top: 20px; width: 40px; height: 100px">
+	<img src="images/start/P51D_Cover_Open.png" width="60" height="173" id="S_Charger_Cover">
+	</SPAN>
+	
+	<!-- Selecteur Fuel Booster -->
+	<SPAN style="position: absolute; left: 192px; top: 70px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="S_Fuel" usemap="#Fuel"> </SPAN>
+	<map name="Fuel">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11501201')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11501200')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Blower Light -->
+	<SPAN style="position: absolute; left: 110px; top: 50px; width: 58px; height: 58px">
+	<img src="images/start/P51D_Blower_Off.png" width="58" height="58" id="S_Blower_Lght">
+	</SPAN>
+	
+	<!-- Selecteur Oil Dilute -->
+	<SPAN style="position: absolute; left: 268px; top: 70px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="S_Oil" usemap="#Dilute">
+	<map name="Dilute">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11500701')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11500700')"> 
+	</map>
+	</SPAN>
+	
+	
+	<!-- Selecteur Start -->
+	<SPAN style="position: absolute; left: 342px; top: 70px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="S_Start">
+	</SPAN>
+	
+	<!-- Cover Start -->
+	<SPAN style="position: absolute; left: 332px; top: 20px; width: 40px; height: 100px">
+	<img src="images/start/P51D_Cover_Open.png" width="60" height="173" id="S_Start_Cover">
+	</SPAN>
+	
+	
+	
+	<!-- Selecteur Primer -->
+	<SPAN style="position: absolute; left: 420px; top: 70px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="S_Primer" usemap="#Primer">
+	<map name="Primer">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('11501101')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('11501100')"> 
+	</map>
+	</SPAN>
+	
+	
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Panel_Fuel">
+
+	<img src="images/fuel/P51D_Fuel_Panel.png" width="500" height="400" usemap="#FuelPanel">
+	
+	<map name="FuelPanel">	
+	<!-- Zone Cut Off -->
+	<area shape="rect" coords="50,220,90,300"  href="javascript:CmdDCSRaw('10900501')"> 
+	<area shape="rect" coords="50,300,90,390"  href="javascript:CmdDCSRaw('10900500')"> 
+	<!-- Zone Selecteur Tank -->
+	<area shape="circle" coords="390,285,40" href="javascript:CmdDCSRaw('40900400')">
+	<area shape="circle" coords="460,285,40" href="javascript:CmdDCSRaw('40900404')">
+	<area shape="circle" coords="385,330,40" href="javascript:CmdDCSRaw('40900401')">
+	<area shape="circle" coords="460,330,40" href="javascript:CmdDCSRaw('40900403')">
+	<area shape="circle" coords="425,360,40" href="javascript:CmdDCSRaw('40900402')">
+	</map>
+	
+	
+	<!-- Selecteur Cut Off -->
+	<SPAN style="position: absolute; left: 52px; top: 340px; width: 40px; height: 40px">
+	<img src="images/fuel/Cut-Off_Lever.png" width="40" height="40" id="F_CutOff"> </SPAN>
+	
+	<!-- Selecteur Tank -->
+	<SPAN style="position: absolute; left: 403px; top: 265px; width: 40px; height: 40px">
+	<img src="images/fuel/P51D_Selecteur_tank.png" width="40" height="120" id="F_Select">
+	</SPAN>
+	
+	<!-- Aiguille Left Tank -->
+	<SPAN style="position: absolute; left: 29px; top: 20px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="180" height="180" id="F_AIG_Left" usemap="#SelLeft"> 
+	<map name="SelLeft">	
+	<!-- Cadran selectionne Tank -->
+	<area shape="circle" coords="90,90,80" href="javascript:CmdDCSRaw('40900401')">
+	</map>
+	</SPAN>
+	
+	<!-- Aiguille Right Tank -->
+	<SPAN style="position: absolute; left: 288px; top: 20px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="180" height="180" id="F_AIG_Right" usemap="#SelRight">
+	<map name="SelRight">	
+	<!-- Cadran selectionne Tank -->
+	<area shape="circle" coords="90,90,80" href="javascript:CmdDCSRaw('40900403')">
+	</map>
+	</SPAN>
+	
+	<!-- Aiguille Fuselage Tank -->
+	<SPAN style="position: absolute; left: 160px; top: 177px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="180" height="180" id="F_AIG_Fuselage" usemap="#SelFuse">
+	<map name="SelFuse">	
+	<!-- Cadran selectionne Tank -->
+	<area shape="circle" coords="90,90,80" href="javascript:CmdDCSRaw('40900402')">
+	</map>
+	</SPAN>
+	
+	
+	
+</div>
+
+
+
+
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Panel_Service">
+
+	<img src="images/panel/P51D_Service_Panel.png" width="500" height="400" usemap="#ServicePanel">
+	
+	<map name="ServicePanel">	
+	<!-- Zone Selecteur Magneto -->
+	<area shape="circle" coords="160,340,20" href="javascript:CmdDCSRaw('41300500')">
+	<area shape="circle" coords="130,360,20" href="javascript:CmdDCSRaw('41300501')">
+	<area shape="circle" coords="90,360,20" href="javascript:CmdDCSRaw('41300502')">
+	<area shape="circle" coords="60,340,20" href="javascript:CmdDCSRaw('41300503')">
+	<!-- Zone Elec Reset -->
+	<area shape="circle" coords="230,45,20" href="javascript:CmdDCSRaw('51402501')">
+	</map>
+	
+	<!-- Aiguille Ampmeter -->
+	<SPAN style="position: absolute; left: 10px; top: 50px; width: 200px; height: 200px">
+	<img src="images/Aig_drift_2.gif" width="200" height="200" id="S_AIG_Amp">
+	</SPAN>
+	
+	
+	<!-- Aiguille Hydraulic -->
+	<SPAN style="position: absolute; left: 300px; top: 17px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="180" height="180" id="S_AIG_Hyd"> 
+	</SPAN>
+	
+	<!-- Aiguille Oxygen -->
+	<SPAN style="position: absolute; left: 300px; top: 205px; width: 200px; height: 200px">
+	<img src="images/Aig_drift.gif" width="180" height="180" id="S_AIG_Oxy">
+	</SPAN>
+	
+	
+	<!-- Selecteur Magneto -->
+	<SPAN style="position: absolute; left: 90px; top: 245px; width: 40px; height: 40px">
+	<img src="images/Selecteur_demi.gif" width="40" height="100" id="S_Magneto"> </SPAN>
+	
+	
+
+	
+	<!-- Blinker -->
+	<!-- Blinker Top -->
+	<SPAN style="position: absolute; left: 258px; top: 246px; width: 35px; height: 50px">
+	<img src="images/panel/Blinker_T.png" width="24" height="50" id="S_Blink1">	</SPAN>
+	
+	<!-- Blinker Bottom -->
+	<SPAN style="position: absolute; left: 258px; top: 296px; width: 35px; height: 50px">
+	<img src="images/panel/Blinker_B.png" width="24" height="50" id="S_Blink2">	</SPAN>
+	
+	
+	
+	
+	
+</div>
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div id="Panel_Weapon">
+
+	<img src="images/weapon/P51D_Weapon_Panel.png" width="500" height="400" usemap="#WeaponPanel">
+		
+	<map name="WeaponPanel">	
+	<!-- Zone Counter +/- -->
+	<area shape="circle" coords="450,60,20" href="javascript:CmdDCSRaw('70401081')">
+	<area shape="circle" coords="450,120,20" href="javascript:CmdDCSRaw('70400981')">
+	</map>
+	
+	<!-- Selecteur Rocket/Bomb -->
+	<SPAN style="position: absolute; left: 60px; top: 150px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="W_Rock_Bmb" usemap="#W_RockBmb"> </SPAN>
+	<map name="W_RockBmb">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('41301503')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('41301500')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('41301502')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Single Auto -->
+	<SPAN style="position: absolute; left: 175px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="W_Single_Auto" usemap="#W_SingleAuto"> </SPAN>
+	<map name="W_SingleAuto">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('40400701')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('40400700')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('40400702')"> 
+	</map>
+	</SPAN>
+		
+	
+	<!-- Selecteur Delay/Inst -->
+	<SPAN style="position: absolute; left: 257px; top: 30px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="W_Delay" usemap="#W_DelayInst"> </SPAN>
+	<map name="W_DelayInst">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('10400801')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('10400800')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Train Both -->
+	<SPAN style="position: absolute; left: 133px; top: 257px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-D4.png" width="40" height="100" id="W_Train" usemap="#W_TrainBoth"> </SPAN>
+	<map name="W_TrainBoth">	
+	<area shape="rect" coords="0,0,40,49"  href="javascript:CmdDCSRaw('41301501')"> 
+	<area shape="rect" coords="0,50,40,100"  href="javascript:CmdDCSRaw('41301502')"> 
+	</map>
+	</SPAN>
+	
+		
+	<!-- Selecteur Left -->
+	<SPAN style="position: absolute; left: 226px; top: 257px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="W_Left" usemap="#W_LeftArm"> </SPAN>
+	<map name="W_LeftArm">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('31301302')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('31301301')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('31301300')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Right -->
+	<SPAN style="position: absolute; left: 300px; top: 257px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="W_Right" usemap="#W_RightArm"> </SPAN>
+	<map name="W_RightArm">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('31301402')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('31301401')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('31301400')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Selecteur Gun -->
+	<SPAN style="position: absolute; left: 422px; top: 257px; width: 40px; height: 100px">
+	<img src="images/switch/Switch-Metal-C4V.png" width="40" height="100" id="W_Gun" usemap="#W_GunCam"> </SPAN>
+	<map name="W_GunCam">	
+	<area shape="rect" coords="0,0,40,32"  href="javascript:CmdDCSRaw('31300702')"> 
+	<area shape="rect" coords="0,33,40,66"  href="javascript:CmdDCSRaw('31300701')"> 
+	<area shape="rect" coords="0,67,40,100"  href="javascript:CmdDCSRaw('31300700')"> 
+	</map>
+	</SPAN>
+	
+	<!-- Indication Counter -->
+	<SPAN style="position: absolute; left: 350px; top: 50px; width: 65px; height: 70px ; background-color:#494949 ;border-style: solid ;color:#CFCF00 ; font-size:350%" id="RockCounter"></SPAN>
+	
+	
+	
+</div>
+
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+
+
+
+
+
+
+
+
+
+
+  
+</body>
+</html>
